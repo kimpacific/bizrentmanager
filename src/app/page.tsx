@@ -1,90 +1,88 @@
 "use client"
-import { BarChart3, Bell, Building2, CreditCard, FileText, Home, Settings, Users } from "lucide-react";
-import { Button } from "../../components/ui/button";
-import DashboardContent from "../../components/DashboardContent";
+import TenantPortal from "./(Tenant)/tenant/page"
+import LandlordPortal from "./(Landlord)/landlord/page"
+import AuthPage from "./auth/page"
+import { useState, useEffect } from "react"
 
-import { useState } from "react";
-import SettingsModal from "../../components/SettingsModal";
-import PropertiesContent from "../../components/PropertiesContent";
-import TenantsContent from "../../components/TenantsContent";
-import InvoicesContent from "../../components/InvoicesContent";
-import PaymentsContent from "../../components/PaymentsContent";
-import ReportsContent from "../../components/ReportsContent";
+export default function Page() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userRole, setUserRole] = useState<"tenant" | "landlord">("tenant")
+  const [isLoading, setIsLoading] = useState(false)
 
-interface UserProfile {
-  id: string;
-  name: string;
-  email: string;
-  // Add other relevant fields as needed
-}
+  useEffect(() => {
+    // Check for existing session on page load
+    const savedSession = localStorage.getItem("userSession")
+    if (savedSession) {
+      try {
+        const session = JSON.parse(savedSession)
+        setUserRole(session.role)
+        setIsLoggedIn(true)
+      } catch (error) {
+        console.error("Failed to restore session:", error)
+        localStorage.removeItem("userSession")
+      }
+    }
+  }, [])
 
-export default function LandlordDashboard({ onLogout, userProfile }: { onLogout: () => void; userProfile: UserProfile }) {
-  const [activeTab, setActiveTab] = useState("dashboard")
-  const [showSettings, setShowSettings] = useState(false)
+  // Mock user profile data for tenant
+  const mockTenantProfile = {
+    id: "tenant-001",
+    name: "John Doe",
+    email: "john.doe@email.com",
+    phone: "+1 (555) 123-4567",
+    address: "123 Main Street, Apt 4B, New York, NY 10001",
+    role: "tenant",
+    tenantId: "TNT-001",
+  }
 
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="flex h-16 items-center px-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary rounded-lg">
-              <Building2 className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <h1 className="text-xl font-bold text-primary">BizRent Manager</h1>
-          </div>
-          <div className="ml-auto flex items-center gap-4">
-            <Button variant="ghost" size="sm">
-              <Bell className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => setShowSettings(true)}>
-              <Settings className="h-4 w-4" />
-            </Button>
-            {/* <ThemeToggle /> */}
-            <Button variant="outline" size="sm" onClick={onLogout}>
-              Logout
-            </Button>
-          </div>
+  const mockLandlordProfile = {
+    id: "landlord-001",
+    name: "Sarah Johnson",
+    email: "sarah.johnson@email.com",
+    phone: "+250 788 123 456",
+    organization: "Johnson Properties Ltd",
+    role: "landlord",
+  }
+
+  const handleLogout = () => {
+    setIsLoading(true)
+    localStorage.removeItem("userSession")
+    setTimeout(() => {
+      setIsLoggedIn(false)
+      setIsLoading(false)
+      console.log("User logged out")
+    }, 500) // Small delay for smooth transition
+  }
+
+  const handleLogin = (role: "tenant" | "landlord") => {
+    setIsLoading(true)
+    setUserRole(role)
+    localStorage.setItem("userSession", JSON.stringify({ role, timestamp: Date.now() }))
+    setTimeout(() => {
+      setIsLoggedIn(true)
+      setIsLoading(false)
+      console.log(`User logged in as ${role}`)
+    }, 500) // Small delay for smooth transition
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-slate-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-orange-200 border-t-orange-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-600 font-medium">Loading...</p>
         </div>
-      </header>
-
-      <div className="flex">
-        {/* Sidebar */}
-        <aside className="w-64 border-r bg-card min-h-[calc(100vh-4rem)]">
-          <nav className="p-4 space-y-2">
-            {[
-              { id: "dashboard", label: "Dashboard", icon: Home },
-              { id: "properties", label: "Properties", icon: Building2 },
-              { id: "tenants", label: "Tenants", icon: Users },
-              { id: "invoices", label: "Invoices", icon: FileText },
-              { id: "payments", label: "Payments", icon: CreditCard },
-              { id: "reports", label: "Reports", icon: BarChart3 },
-            ].map((item) => (
-              <Button
-                key={item.id}
-                variant={activeTab === item.id ? "default" : "ghost"}
-                className="w-full justify-start"
-                onClick={() => setActiveTab(item.id)}
-              >
-                <item.icon className="h-4 w-4 mr-2" />
-                {item.label}
-              </Button>
-            ))}
-          </nav>
-        </aside>
-
-        {/* Main Content */}
-        <main className="flex-1 p-6">
-          {activeTab === "dashboard" && <DashboardContent />}
-           {activeTab === "properties" && <PropertiesContent />}
-          {activeTab === "tenants" && <TenantsContent />}
-          {activeTab === "invoices" && <InvoicesContent />}
-          {activeTab === "payments" && <PaymentsContent />}
-          {activeTab === "reports" && <ReportsContent />} 
-        </main>
       </div>
+    )
+  }
 
-      {showSettings && <SettingsModal onClose={() => setShowSettings(false)} userType="landlord" />}
-    </div>
-  )
+  if (!isLoggedIn) {
+    return <AuthPage />
+  }
+
+  if (userRole === "landlord") {
+    return <LandlordPortal onLogout={handleLogout} userProfile={mockLandlordProfile} />
+  }
+
+  return <TenantPortal onLogout={handleLogout} userProfile={mockTenantProfile} />
 }

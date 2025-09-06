@@ -94,24 +94,24 @@ const TenantsContent = ({ onAddNew }: TenantsContentProps) => {
           <h2 className="text-3xl font-bold text-slate-800">Tenants Database</h2>
           <p className="text-slate-600">Complete tenant information and records</p>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="relative">
+        <div className="flex items-center gap-3 ">
+          <div className="relative ">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
             <input
               type="text"
               placeholder="Search tenants..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+              className="pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 "
             />
           </div>
-          <button
+          {/* <button
             onClick={onAddNew}
             className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105 flex items-center gap-2"
           >
             <Plus className="h-4 w-4" />
             Add Tenant
-          </button>
+          </button> */}
         </div>
       </div>
 

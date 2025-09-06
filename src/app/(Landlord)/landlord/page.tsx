@@ -48,7 +48,7 @@ export default function LandlordPortal({ onLogout, userProfile }: { onLogout: ()
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 transition-all duration-700 ease-in-out">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 transition-all duration-700 ease-in-out ">
       <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200/60 shadow-sm sticky top-0 z-50">
         <div className="flex h-16 items-center px-6">
           <div className="flex items-center gap-3 group">
@@ -91,7 +91,7 @@ export default function LandlordPortal({ onLogout, userProfile }: { onLogout: ()
       </header>
 
       <div className="flex h-[calc(100vh-4rem)]">
-        <div className="w-72 bg-white/60 backdrop-blur-sm border-r border-slate-200/60 shadow-lg">
+        <div className="w-72 bg-white/60 backdrop-blur-sm border-r border-slate-200/60 shadow-lg overflow-y-scroll ">
           <div className="p-6">
             <div className="mb-8 p-4 bg-gradient-to-r from-orange-50 to-orange-100/50 rounded-xl border border-orange-200/50">
               <div className="flex items-center gap-3 mb-2">
@@ -105,7 +105,7 @@ export default function LandlordPortal({ onLogout, userProfile }: { onLogout: ()
               </div>
             </div>
 
-            <nav className="space-y-2">
+            <nav className="space-y-2 ">
               <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4 px-3">Navigation</h4>
               {navigationItems.map((item) => (
                 <button

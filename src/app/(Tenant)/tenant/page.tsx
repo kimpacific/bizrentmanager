@@ -85,7 +85,7 @@ export default function TenantPortal({ onLogout, userProfile }: { onLogout: () =
       </header>
 
       <div className="flex h-[calc(100vh-4rem)]">
-        <div className="w-72 bg-white/60 backdrop-blur-sm border-r border-slate-200/60 shadow-lg">
+        <div className="w-72 bg-white/60 backdrop-blur-sm border-r border-slate-200/60 shadow-lg overflow-y-scroll">
           <div className="p-6">
             <div className="mb-8 p-4 bg-gradient-to-r from-orange-50 to-orange-100/50 rounded-xl border border-orange-200/50">
               <div className="flex items-center gap-3 mb-2">

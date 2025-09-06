@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { url } from "inspector";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BizManager",
+  
+  title: "BizManager| Your personal rental management",
   description: "Manage your rental units efficiently",
+  icons: {
+    icon: "/logo.png" 
+  }
 };
 
 export default function RootLayout({

@@ -202,6 +202,7 @@ const DashboardContent = ({ userProfile }: DashboardContentProps) => {
         </div>
       </div>
     </div>
+    
   )
 }
 
